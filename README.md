@@ -2,34 +2,37 @@
 Shows the ETA at an MBTA stop 
 
 
-**To Run**
-`
-wget ...
-`
+**Run**
+---
+`wget https://github.com/NikoStapczynski/MBTA-Ticker/raw/main/MBTA-Ticker`
+
+`chmod +x MBTA-Ticker`
+
 `./MBTA-ticker`
 
 
 
 
-**To Build**
 
-To run lisp you have quite a few options (infinte?), this is just one of them
 
-*On Debian*
+**Evaluate**
+---
+Test in the sbcl
 
-Install sbcl or clisp or both
-`sudo apt install sbcl clisp`
+`sbcl`
 
-Install lish too (https://github.com/nibbula/lish)
+`(load "main.lsp")`
 
-Evaluate main.lsp
-`clisp main.lsp`
-
-Test in the REPL that dislikes you the least
 `(main 0)`
 
-To export to an executable use buildapp (https://www.xach.com/lisp/buildapp/):
-`buildapp --eval '(load "main.lsp")' --entry main --output MBTA-ticker`
+
+
+**Build**
+---
+To Build an executable use buildapp (https://www.xach.com/lisp/buildapp/):
+
+`buildapp --load main.lsp --entry main --output MBTA-Ticker`
 
 Run
+
 `./MBTA-ticker`
