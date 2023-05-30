@@ -4,7 +4,7 @@ Shows the ETA at an MBTA stop
 
 **Run**
 ---
-`wget https://github.com/NikoStapczynski/MBTA-Ticker/raw/main/MBTA-Ticker`
+`wget https://github.com/nstapczynski/MBTA-Ticker/raw/main/MBTA-Ticker`
 
 `chmod +x MBTA-Ticker`
 
