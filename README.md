@@ -18,9 +18,10 @@ This installs Quicklisp at the default location ~/quicklisp/setup.lisp
 **Run as a script**
 ---
 
-`sbcl --script main.lisp`
+`sbcl --script main.lisp place-pktrm`
 
-
+Takes a stop as an argument. In the above example place-pktrm is Park Street.
+Find more stop names at https://www.mbta.com/
 
 **Build an executable**
 ---
@@ -32,4 +33,4 @@ Use buildapp (https://www.xach.com/lisp/buildapp/):
 
 Run
 
-`./MBTA-ticker`
+`./MBTA-ticker place-pktrm`
