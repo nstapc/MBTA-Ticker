@@ -12,6 +12,8 @@ Informational ticker for an MBTA stop
 
 `(quicklisp-quickstart:install)`
 
+This installs Quicklisp at the default location ~/quicklisp/setup.lisp
+
 
 **Run as a script**
 ---
