@@ -1,6 +1,6 @@
 
 (load "quicklisp.lisp")
-(load "/home/mary/quicklisp/setup.lisp")
+(load "~/quicklisp/setup.lisp")
 (ql:quickload :dexador)
 
 (defun main (argv) (declare (ignore argv))

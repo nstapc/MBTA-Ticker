@@ -1,18 +1,25 @@
 # MBTA-Ticker
-Shows the ETA at an MBTA stop 
+Informational ticker for an MBTA stop 
 
 
-**Run**
+**Requirements**
+---
+`sudo apt install sbcl buildapp`
+
+`curl -O https://beta.quicklisp.org/quicklisp.lisp`
+
+`sbcl --load quicklisp.lisp`
+
+`(quicklisp-quickstart:install)`
+
+
+**Run the current build**
 ---
 `wget https://github.com/nstapczynski/MBTA-Ticker/raw/main/MBTA-Ticker`
 
 `chmod +x MBTA-Ticker`
 
 `./MBTA-ticker`
-
-
-
-
 
 
 **Evaluate**
@@ -24,7 +31,6 @@ Test in the sbcl
 `(load "main.lsp")`
 
 `(main 0)`
-
 
 
 **Build**
