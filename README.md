@@ -4,7 +4,7 @@ Informational ticker for an MBTA stop
 
 **Requirements**
 ---
-`sudo apt install sbcl buildapp`
+`sudo apt install sbcl buildapp cl-yason`
 
 `curl -O https://beta.quicklisp.org/quicklisp.lisp`
 
@@ -13,31 +13,20 @@ Informational ticker for an MBTA stop
 `(quicklisp-quickstart:install)`
 
 
-**Run the current build**
+**Run as a script**
 ---
-`wget https://github.com/nstapczynski/MBTA-Ticker/raw/main/MBTA-Ticker`
+
+`sbcl --script main.lisp`
+
+
+
+**Build an executable**
+---
+Use buildapp (https://www.xach.com/lisp/buildapp/):
+
+`buildapp --load main.lisp --entry main --output MBTA-Ticker`
 
 `chmod +x MBTA-Ticker`
-
-`./MBTA-ticker`
-
-
-**Evaluate**
----
-Test in the sbcl
-
-`sbcl`
-
-`(load "main.lsp")`
-
-`(main 0)`
-
-
-**Build**
----
-To Build an executable use buildapp (https://www.xach.com/lisp/buildapp/):
-
-`buildapp --load main.lsp --entry main --output MBTA-Ticker`
 
 Run
 
