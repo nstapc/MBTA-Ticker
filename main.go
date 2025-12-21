@@ -63,6 +63,14 @@ type StopAttributes struct {
 	Name string `json:"name"`
 }
 
+type StopResponse struct {
+	Data StopData `json:"data"`
+}
+
+type StopData struct {
+	Attributes StopAttributes `json:"attributes"`
+}
+
 type TickerItem struct {
 	Route     string
 	Destination string
@@ -121,40 +129,47 @@ func getDestination(pred Prediction, included []IncludedItem) string {
 }
 
 // getRoute extracts route information from included routes
-func getRoute(pred Prediction, included []IncludedItem) string {
+func getRoute(pred Prediction, included []IncludedItem) (string, int) {
 	if pred.Relationships.Route == nil || pred.Relationships.Route.Data == nil {
-		return "Unknown Route"
+		return "Unknown Route", -1
 	}
 
 	routeID := pred.Relationships.Route.Data.ID
 	route := findIncludedItem(included, "route", routeID)
 	if route == nil {
-		return routeID
+		return routeID, -1
 	}
 
-	// Extract short_name from route attributes
+	var routeType int = -1
+
+	// Extract attributes
 	if attrs, ok := route.Attributes.(map[string]interface{}); ok {
+		if typ, exists := attrs["type"]; exists {
+			if t, ok := typ.(float64); ok { // JSON unmarshals numbers as float64
+				routeType = int(t)
+			}
+		}
 		if shortName, exists := attrs["short_name"]; exists {
 			if sn, ok := shortName.(string); ok && sn != "" {
-				return sn
+				return sn, routeType
 			}
 		}
 		// Fallback to long_name
 		if longName, exists := attrs["long_name"]; exists {
 			if ln, ok := longName.(string); ok && ln != "" {
-				return ln
+				return ln, routeType
 			}
 		}
 	}
 
-	return routeID
+	return routeID, routeType
 }
 
 // getStopName extracts stop name from included stops
 func getStopName(included []IncludedItem, stopID string) string {
 	stop := findIncludedItem(included, "stop", stopID)
 	if stop == nil {
-		return fmt.Sprintf("Stop %s", stopID)
+		return stopID
 	}
 
 	// Extract name from stop attributes
@@ -166,13 +181,11 @@ func getStopName(included []IncludedItem, stopID string) string {
 		}
 	}
 
-	return fmt.Sprintf("Stop %s", stopID)
+	return stopID
 }
 
 // formatTicker creates the ticker display from API response
-func formatTicker(response *MBTAResponse, stopID string) string {
-	stopName := getStopName(response.Included, stopID)
-
+func formatTicker(response *MBTAResponse, stopName string) string {
 	var items []TickerItem
 
 	// Process predictions (limit to 60 as in original)
@@ -186,7 +199,7 @@ func formatTicker(response *MBTAResponse, stopID string) string {
 			continue
 		}
 
-		route := getRoute(pred, response.Included)
+		route, _ := getRoute(pred, response.Included)
 		destination := getDestination(pred, response.Included)
 		timeUntil := formatTime(*pred.Attributes.ArrivalTime)
 
@@ -230,6 +243,28 @@ func formatTicker(response *MBTAResponse, stopID string) string {
 	return strings.Join(lines, "\n")
 }
 
+// fetchStopName gets the full name of a stop from MBTA API
+func fetchStopName(stopID string) (string, error) {
+	url := fmt.Sprintf("https://api-v3.mbta.com/stops/%s", stopID)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", fmt.Errorf("HTTP request failed: %v", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("API request failed with status: %d", resp.StatusCode)
+	}
+
+	var stopResp StopResponse
+	if err := json.NewDecoder(resp.Body).Decode(&stopResp); err != nil {
+		return "", fmt.Errorf("JSON decode failed: %v", err)
+	}
+
+	return stopResp.Data.Attributes.Name, nil
+}
+
 // fetchPredictions gets predictions from MBTA API
 func fetchPredictions(stopID string) (*MBTAResponse, error) {
 	// Try without route_type filter first to see if that helps
@@ -262,12 +297,18 @@ func main() {
 
 	stopID := os.Args[1]
 
+	stopName, err := fetchStopName(stopID)
+	if err != nil {
+		fmt.Printf("Error fetching stop name: %v\n", err)
+		os.Exit(1)
+	}
+
 	response, err := fetchPredictions(stopID)
 	if err != nil {
 		fmt.Printf("Error fetching predictions: %v\n", err)
 		os.Exit(1)
 	}
 
-	ticker := formatTicker(response, stopID)
+	ticker := formatTicker(response, stopName)
 	fmt.Println(ticker)
 }
