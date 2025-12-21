@@ -39,5 +39,5 @@ This shows real-time predictions for Park Street station.
 Find stop IDs at https://www.mbta.com/ or use the MBTA API:
 
 ```bash
-curl "https://api-v3.mbta.com/stops?page[limit]=10" | jq '.data[] | "\(.id): \(.attributes.name)"'
+curl "https://api-v3.mbta.com/stops?page%5Blimit%5D=10" | jq '.data[] | "\(.id): \(.attributes.name)"'
 ```
