@@ -23,7 +23,18 @@ This installs Quicklisp at the default location ~/quicklisp/setup.lisp
 Takes a stop as an argument. In the above example place-pktrm is Park Street.
 Find more stop names at https://www.mbta.com/
 
-**Build an executable**
+**Download Pre-built Executable**
+---
+Pre-built executables are available in [GitHub Releases](https://github.com/NikoStapczynski/MBTA-Ticker/releases).
+
+Download the latest `MBTA-Ticker` executable, make it executable, and run:
+
+```bash
+chmod +x MBTA-Ticker
+./MBTA-Ticker place-pktrm
+```
+
+**Build from Source**
 ---
 Use buildapp (https://www.xach.com/lisp/buildapp/):
 

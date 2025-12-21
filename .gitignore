@@ -16,3 +16,6 @@
 *.wx64fsl
 *.wx32fsl
 .vscode/
+
+# Built executables
+MBTA-Ticker
