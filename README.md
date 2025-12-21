@@ -1,47 +1,43 @@
 # MBTA-Ticker
-Informational ticker for an MBTA stop 
+Informational ticker for an MBTA stop
 
 
 **Requirements**
 ---
-`sudo apt install sbcl buildapp cl-yason`
+Go 1.19 or later
 
-`curl -O https://beta.quicklisp.org/quicklisp.lisp`
+## Installation
 
-`sbcl --load quicklisp.lisp`
-
-`(quicklisp-quickstart:install)`
-
-This installs Quicklisp at the default location ~/quicklisp/setup.lisp
-
-
-**Run as a script**
----
-
-`sbcl --script main.lisp place-pktrm`
-
-Takes a stop as an argument. In the above example place-pktrm is Park Street.
-Find more stop names at https://www.mbta.com/
-
-**Download Pre-built Executable**
----
-Pre-built executables are available in [GitHub Releases](https://github.com/NikoStapczynski/MBTA-Ticker/releases).
-
-Download the latest `MBTA-Ticker` executable, make it executable, and run:
-
+### Using Go
 ```bash
-chmod +x MBTA-Ticker
-./MBTA-Ticker place-pktrm
+go install github.com/nstapczynski/MBTA-Ticker@latest
 ```
 
-**Build from Source**
----
-Use buildapp (https://www.xach.com/lisp/buildapp/):
+### Or build from source:
+```bash
+git clone https://github.com/nstapczynski/MBTA-Ticker.git
+cd MBTA-Ticker
+go build -o mbta-ticker main.go
+```
 
-`buildapp --load main.lisp --entry main --output MBTA-Ticker`
+## Usage
 
-`chmod +x MBTA-Ticker`
+### Basic Usage
+```bash
+./mbta-ticker <stop-id>
+```
 
-Run
+Example:
+```bash
+./mbta-ticker place-pktrm
+```
 
-`./MBTA-ticker place-pktrm`
+This shows real-time predictions for Park Street station.
+
+## Finding Stop IDs
+
+Find stop IDs at https://www.mbta.com/ or use the MBTA API:
+
+```bash
+curl "https://api-v3.mbta.com/stops?page[limit]=10" | jq '.data[] | "\(.id): \(.attributes.name)"'
+```
