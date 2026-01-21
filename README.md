@@ -10,12 +10,12 @@ Go 1.19 or later
 
 ### Using Go
 ```bash
-go install github.com/NikoStapczynski/MBTA-Ticker@latest
+go install github.com/nstapc/MBTA-Ticker@latest
 ```
 
 ### Or build from source:
 ```bash
-git clone https://github.com/NikoStapczynski/MBTA-Ticker.git
+git clone https://github.com/nstapc/MBTA-Ticker.git
 cd MBTA-Ticker
 go build -o mbta-ticker main.go
 ```
