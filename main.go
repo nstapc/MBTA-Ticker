@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -289,13 +290,27 @@ func fetchPredictions(stopID string) (*MBTAResponse, error) {
 }
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Usage: mbta-ticker <stop-id>")
+	var help = flag.Bool("help", false, "Display help information")
+	flag.Parse()
+
+	if *help {
+		fmt.Println("Usage: mbta-ticker [options] <stop-id>")
+		fmt.Println("Display MBTA arrival predictions for a given stop.")
+		fmt.Println()
+		fmt.Println("Options:")
+		flag.PrintDefaults()
 		fmt.Println("Example: mbta-ticker place-pktrm")
+		os.Exit(0)
+	}
+
+	if flag.NArg() < 1 {
+		fmt.Println("Error: stop-id is required")
+		fmt.Println("Usage: mbta-ticker [options] <stop-id>")
+		fmt.Println("Run with -help for more information")
 		os.Exit(1)
 	}
 
-	stopID := os.Args[1]
+	stopID := flag.Arg(0)
 
 	stopName, err := fetchStopName(stopID)
 	if err != nil {
