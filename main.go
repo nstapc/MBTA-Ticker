@@ -294,18 +294,18 @@ func main() {
 	flag.Parse()
 
 	if *help {
-		fmt.Println("Usage: mbta-ticker [options] <stop-id>")
+		fmt.Println("Usage: stop-watch [options] <stop-id>")
 		fmt.Println("Display MBTA arrival predictions for a given stop.")
 		fmt.Println()
 		fmt.Println("Options:")
 		flag.PrintDefaults()
-		fmt.Println("Example: mbta-ticker place-pktrm")
+		fmt.Println("Example: stop-watch place-pktrm")
 		os.Exit(0)
 	}
 
 	if flag.NArg() < 1 {
 		fmt.Println("Error: stop-id is required")
-		fmt.Println("Usage: mbta-ticker [options] <stop-id>")
+		fmt.Println("Usage: stop-watch [options] <stop-id>")
 		fmt.Println("Run with -help for more information")
 		os.Exit(1)
 	}

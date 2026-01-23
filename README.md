@@ -1,4 +1,4 @@
-# MBTA-Ticker
+# stop-watch
 Informational ticker for an MBTA stop
 
 
@@ -10,26 +10,26 @@ Go 1.19 or later
 
 ### Using Go
 ```bash
-go install github.com/nstapc/MBTA-Ticker@latest
+go install github.com/nstapc/stop-watch@latest
 ```
 
 ### Or build from source:
 ```bash
-git clone https://github.com/nstapc/MBTA-Ticker.git
-cd MBTA-Ticker
-go build -o mbta-ticker main.go
+git clone https://github.com/nstapc/stop-watch.git
+cd stop-watch
+go build -o stop-watch main.go
 ```
 
 ## Usage
 
 ### Basic Usage
 ```bash
-./mbta-ticker <stop-id>
+./stop-watch <stop-id>
 ```
 
 Example:
 ```bash
-./mbta-ticker place-pktrm
+./stop-watch place-pktrm
 ```
 
 This shows real-time predictions for Park Street station.
